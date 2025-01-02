@@ -1,4 +1,4 @@
-# Website Template
+# Company Portfolio template
 
 This is an open-source Portfolio website template built using TypeScript, Vite, Tailwind CSS, and Supabase as the backend database. Anyone can use this template to kickstart their web development projects.
 
