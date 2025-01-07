@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signIn } from '@/lib/auth';
 import { Button } from '../ui/Button';
 
@@ -7,6 +8,7 @@ export function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
+  const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -14,6 +16,7 @@ export function LoginForm() {
       setLoading(true);
       setError(undefined);
       await signIn(email, password);
+      navigate('/admin');
     } catch (err) {
       setError('Invalid credentials');
     } finally {

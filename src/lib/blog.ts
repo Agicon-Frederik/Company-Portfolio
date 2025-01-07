@@ -1,82 +1,81 @@
-import { supabase } from './supabase';
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where, orderBy, limit, startAfter } from 'firebase/firestore';
+import { db } from './firebase';
 import type { Post, Category, PostFilters } from '@/types/blog';
 
 export async function getPosts({ category, search, page, perPage }: PostFilters) {
-  let query = supabase
-    .from('posts')
-    .select(`
-      *,
-      categories (
-        id,
-        name,
-        slug
-      )
-    `)
-    .eq('published', true)
-    .order('published_at', { ascending: false });
+  try {
+    const postsRef = collection(db, 'posts');
+    let q = query(postsRef, 
+      where('published', '==', true),
+      orderBy('published_at', 'desc'),
+      limit(perPage)
+    );
 
-  if (category) {
-    query = query.contains('categories', [{ slug: category }]);
+    const snapshot = await getDocs(q);
+    const posts = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Post[];
+
+    return {
+      posts,
+      total: snapshot.size
+    };
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    throw error;
   }
-
-  if (search) {
-    query = query.or(`title.ilike.%${search}%,content.ilike.%${search}%`);
-  }
-
-  const from = (page - 1) * perPage;
-  query = query.range(from, from + perPage - 1);
-
-  const { data, error, count } = await query;
-
-  if (error) throw error;
-
-  return {
-    posts: data as Post[],
-    total: count || 0,
-  };
 }
 
 export async function getCategories() {
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('name');
-
-  if (error) throw error;
-
-  return data as Category[];
+  try {
+    const categoriesRef = collection(db, 'categories');
+    const snapshot = await getDocs(categoriesRef);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Category[];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    throw error;
+  }
 }
 
 export async function createPost(post: Omit<Post, 'id' | 'created_at' | 'updated_at'>) {
-  const { data, error } = await supabase
-    .from('posts')
-    .insert(post)
-    .select()
-    .single();
-
-  if (error) throw error;
-
-  return data as Post;
+  try {
+    const postsRef = collection(db, 'posts');
+    const docRef = await addDoc(postsRef, {
+      ...post,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    });
+    return { id: docRef.id, ...post };
+  } catch (error) {
+    console.error('Error creating post:', error);
+    throw error;
+  }
 }
 
 export async function updatePost(id: string, post: Partial<Post>) {
-  const { data, error } = await supabase
-    .from('posts')
-    .update({ ...post, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single();
-
-  if (error) throw error;
-
-  return data as Post;
+  try {
+    const postRef = doc(db, 'posts', id);
+    await updateDoc(postRef, {
+      ...post,
+      updated_at: new Date().toISOString()
+    });
+    return { id, ...post };
+  } catch (error) {
+    console.error('Error updating post:', error);
+    throw error;
+  }
 }
 
 export async function deletePost(id: string) {
-  const { error } = await supabase
-    .from('posts')
-    .delete()
-    .eq('id', id);
-
-  if (error) throw error;
+  try {
+    const postRef = doc(db, 'posts', id);
+    await deleteDoc(postRef);
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    throw error;
+  }
 }

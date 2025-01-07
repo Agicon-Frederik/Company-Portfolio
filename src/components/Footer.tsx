@@ -2,10 +2,10 @@ import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const socialLinks = [
-  { icon: Facebook, href: '#' },
-  { icon: Twitter, href: '#' },
-  { icon: Instagram, href: '#' },
-  { icon: Linkedin, href: '#' },
+  { icon: Facebook, href: '#facebook', id: 'facebook' },
+  { icon: Twitter, href: '#twitter', id: 'twitter' },
+  { icon: Instagram, href: '#instagram', id: 'instagram' },
+  { icon: Linkedin, href: '#linkedin', id: 'linkedin' },
 ];
 
 const quickLinks = [
@@ -48,9 +48,9 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold">Follow Us</h3>
             <div className="mt-4 flex space-x-4">
-              {socialLinks.map(({ icon: Icon, href }) => (
+              {socialLinks.map(({ icon: Icon, href, id }) => (
                 <a
-                  key={href}
+                  key={id}
                   href={href}
                   className="text-gray-400 transition-colors hover:text-white"
                 >

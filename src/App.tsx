@@ -3,11 +3,12 @@ import { Toaster } from 'sonner';
 import { Navigation } from './components/Navigation';
 import { HomePage } from './pages/Home';
 import { BlogPage } from './pages/Blog';
+import { ProjectsPage } from './pages/Projects';
 import { AdminPage } from './pages/Admin';
-import { Footer } from './components/Footer';
-import { ProtectedRoute } from './components/Auth/ProtectedRoute';
+import { AdminLoginPage } from './pages/AdminLogin';
+import { AdminRoute } from './components/Admin/AdminRoute';
 
-function App() {
+export default function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
@@ -15,19 +16,18 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/blog" element={<BlogPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/admin/*" element={
-            <ProtectedRoute>
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin" element={
+            <AdminRoute>
               <AdminPage />
-            </ProtectedRoute>
+            </AdminRoute>
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        <Footer />
+       
         <Toaster position="top-right" />
       </div>
     </Router>
   );
 }
-
-export default App;

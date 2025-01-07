@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Menu, X, Briefcase } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/lib/auth';
 
 const publicNavItems = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/#about' },
   { name: 'Services', href: '/#services' },
+  { name: 'Projects', href: '/projects' },
   { name: 'Blog', href: '/blog' },
   { name: 'Contact', href: '/#contact' },
 ];
@@ -15,11 +16,19 @@ const publicNavItems = [
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
 
   const navItems = [
     ...publicNavItems,
     ...(isAuthenticated ? [{ name: 'Admin', href: '/admin' }] : []),
   ];
+
+  const isActive = (href: string) => {
+    if (href.startsWith('/#')) {
+      return location.pathname === '/' && location.hash === href.substring(1);
+    }
+    return location.pathname === href;
+  };
 
   return (
     <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md">
@@ -28,7 +37,7 @@ export function Navigation() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <Briefcase className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold">Quakez</span>
+              <span className="text-xl font-bold">ServicePro</span>
             </Link>
           </div>
 
@@ -38,7 +47,11 @@ export function Navigation() {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive(item.href)
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -70,7 +83,11 @@ export function Navigation() {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className={`block rounded-md px-3 py-2 text-base font-medium ${
+                    isActive(item.href)
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
