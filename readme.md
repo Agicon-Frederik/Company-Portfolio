@@ -1,4 +1,4 @@
-# Website Template
+# Company Portfolio template
 
 This is an open-source Portfolio website template built using TypeScript, Vite, Tailwind CSS, and Supabase as the backend database. Anyone can use this template to kickstart their web development projects.
 
@@ -25,7 +25,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/your-repo-name.git
+    git clone https://github.com/Vaibhavkulshrestha12/Company-Portfolio.git
     cd your-repo-name
     ```
 
