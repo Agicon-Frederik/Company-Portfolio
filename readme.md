@@ -1,6 +1,6 @@
 # Company Portfolio template
 
-This is an open-source Portfolio website template built using TypeScript, Vite, Tailwind CSS, and Supabase as the backend database. Anyone can use this template to kickstart their web development projects.
+This is an open-source Portfolio website template built using TypeScript, Vite, Tailwind CSS, and firebase as the backend database. Anyone can use this template to kickstart their web development projects.
 
 ![Preview](./images/preview.png)
 
@@ -9,7 +9,6 @@ This is an open-source Portfolio website template built using TypeScript, Vite, 
 - **TypeScript**: Strongly typed programming language that builds on JavaScript.
 - **Vite**: Next-generation frontend tooling for fast and optimized builds.
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
-- **Supabase**: Open-source Firebase alternative for backend services.
 
 ## Getting Started
 
@@ -36,14 +35,7 @@ Follow these instructions to get a copy of the project up and running on your lo
     yarn install
     ```
 
-3. Set up Supabase:
-    - Create a new project in Supabase.
-    - Copy the `supabaseUrl` and `supabaseKey` from your Supabase project settings.
-    - Create a `.env` file in the root directory and add your Supabase credentials:
-        ```env
-        VITE_SUPABASE_URL=your-supabase-url
-        VITE_SUPABASE_KEY=your-supabase-key
-        ```
+
 
 ### Running the Development Server
 
