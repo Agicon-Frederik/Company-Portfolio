@@ -52,7 +52,14 @@ export function Contact() {
               </div>
             ))}
             <div className="aspect-video w-full rounded-lg bg-gray-100">
-              {/* Add map component here */}
+             
+              <iframe
+                className="w-full h-full rounded-lg"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093715!2d144.95373631540415!3d-37.81627944202173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf577f62d8b1d47c!2s123%20Business%20Ave%2C%20Suite%20100%2C%20Enterprise%20City!5e0!3m2!1sen!2sus!4v1693515312673!5m2!1sen!2sus"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
           <div className="rounded-lg bg-white p-8 shadow-lg">

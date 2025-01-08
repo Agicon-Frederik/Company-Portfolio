@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
-const projects = [
+export const projects = [
   {
     id: 1,
     title: "E-Commerce Platform",

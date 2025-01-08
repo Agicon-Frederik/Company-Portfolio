@@ -1,102 +1,85 @@
-import { useState, useEffect } from 'react';
-import { toast } from 'sonner';
-import { useAuth } from '@/lib/auth';
-import { getPosts, getCategories, deletePost } from '@/lib/blog';
-import type { Post, Category } from '@/types/blog';
-import { LoginForm } from '@/components/Admin/LoginForm';
-import { PostEditor } from '@/components/Admin/PostEditor';
-import { PostList } from '@/components/Admin/PostList';
+import { useState } from 'react';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { signOut } from '@/lib/auth';
+import { AdminBlogList } from '@/components/Admin/AdminBlogList';
+import { AdminProjectList } from '@/components/Admin/AdminProjectList';
 import { Button } from '@/components/ui/Button';
 
 export function AdminPage() {
-  const { isAuthenticated } = useAuth();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post>();
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadData();
-    }
-  }, [isAuthenticated]);
-
-  async function loadData() {
+  const handleSignOut = async () => {
     try {
       setLoading(true);
-      const [postsData, categoriesData] = await Promise.all([
-        getPosts({ page: 1, perPage: 100 }),
-        getCategories(),
-      ]);
-      setPosts(postsData.posts);
-      setCategories(categoriesData);
+      await signOut();
+      navigate('/admin/login');
     } catch (error) {
-      toast.error('Failed to load data');
+      console.error('Failed to sign out:', error);
     } finally {
       setLoading(false);
     }
-  }
-
-  async function handleDelete(post: Post) {
-    if (window.confirm('Are you sure you want to delete this post?')) {
-      try {
-        await deletePost(post.id);
-        toast.success('Post deleted successfully');
-        loadData();
-      } catch (error) {
-        toast.error('Failed to delete post');
-      }
-    }
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="mx-auto max-w-md px-4 py-12">
-        <LoginForm />
-      </div>
-    );
-  }
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="sm:flex sm:items-center">
-        <div className="sm:flex-auto">
-          <h1 className="text-2xl font-semibold text-gray-900">Posts</h1>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <Button onClick={handleSignOut} isLoading={loading} variant="outline">
+            Sign Out
+          </Button>
         </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0">
-          <Button onClick={() => setIsEditing(true)}>New Post</Button>
-        </div>
-      </div>
 
-      {isEditing ? (
-        <div className="mt-8">
-          <PostEditor
-            post={selectedPost}
-            categories={categories}
-            onSave={() => {
-              setIsEditing(false);
-              setSelectedPost(undefined);
-              loadData();
-            }}
-          />
+        <div className="mb-8">
+          <nav className="flex space-x-4">
+            <Link
+              to="/admin"
+              className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+              end
+            >
+              Overview
+            </Link>
+            <Link
+              to="/admin/blogs"
+              className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            >
+              Blogs
+            </Link>
+            <Link
+              to="/admin/projects"
+              className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+            >
+              Projects
+            </Link>
+          </nav>
         </div>
-      ) : (
-        <div className="mt-8">
-          <PostList
-            posts={posts}
-            onEdit={(post) => {
-              setSelectedPost(post);
-              setIsEditing(true);
-            }}
-            onDelete={handleDelete}
-          />
-        </div>
-      )}
+
+        <Routes>
+          <Route index element={<AdminOverview />} />
+          <Route path="blogs/*" element={<AdminBlogList />} />
+          <Route path="projects/*" element={<AdminProjectList />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}
+
+function AdminOverview() {
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="rounded-lg bg-white p-6 shadow-lg">
+        <h3 className="text-lg font-medium text-gray-900">Total Blogs</h3>
+        <p className="mt-2 text-3xl font-bold text-blue-600">3</p>
+      </div>
+      <div className="rounded-lg bg-white p-6 shadow-lg">
+        <h3 className="text-lg font-medium text-gray-900">Total Projects</h3>
+        <p className="mt-2 text-3xl font-bold text-blue-600">3</p>
+      </div>
+      <div className="rounded-lg bg-white p-6 shadow-lg">
+        <h3 className="text-lg font-medium text-gray-900">Published Posts</h3>
+        <p className="mt-2 text-3xl font-bold text-blue-600">3</p>
+      </div>
     </div>
   );
 }

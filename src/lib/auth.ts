@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { 
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
@@ -43,6 +44,6 @@ export function useAuth() {
     user,
     loading,
     isAuthenticated: !!user,
-    isAdmin: user?.email === 'admin@servicepro.com'
+    isAdmin: user?.email === 'vaibhavkulshrestha55@gmail.com'
   };
 }

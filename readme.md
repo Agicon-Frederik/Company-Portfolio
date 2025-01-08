@@ -18,7 +18,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 - Node.js (v14 or higher)
 - npm or yarn
-- Supabase account
+- firebase account
 
 ### Installation
 
