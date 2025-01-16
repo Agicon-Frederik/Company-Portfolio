@@ -1,21 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Button } from '../ui/Button';
 import { ProjectEditor } from './ProjectEditor';
-import { projects as initialProjects } from '@/pages/Projects';
+import { subscribeToProjects, createProject, updateProject, deleteProject } from '@/lib/projects';
+import type { Project } from '@/lib/projects';
 
 export function AdminProjectList() {
-  const [projects, setProjects] = useState(initialProjects);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleSave = (project) => {
+  useEffect(() => {
+    // Subscribe to real-time updates
+    const unsubscribe = subscribeToProjects((updatedProjects) => {
+      setProjects(updatedProjects);
+      setLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  const handleSave = async (projectData: Omit<Project, 'id'>) => {
     try {
       if (selectedProject) {
-        setProjects(projects.map(p => p.id === project.id ? project : p));
+        await updateProject(selectedProject.id, projectData);
         toast.success('Project updated successfully');
       } else {
-        setProjects([...projects, { ...project, id: Date.now() }]);
+        await createProject(projectData);
         toast.success('Project created successfully');
       }
       setIsEditing(false);
@@ -25,16 +38,20 @@ export function AdminProjectList() {
     }
   };
 
-  const handleDelete = (project) => {
+  const handleDelete = async (project: Project) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       try {
-        setProjects(projects.filter(p => p.id !== project.id));
+        await deleteProject(project.id);
         toast.success('Project deleted successfully');
       } catch (error) {
         toast.error('Failed to delete project');
       }
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

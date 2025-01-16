@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { getPosts, deletePost } from '@/lib/blog';
+import { getPosts, deletePost, subscribeToBlogs } from '@/lib/blog';
 import { PostEditor } from './PostEditor';
 import { PostList } from './PostList';
 import { Button } from '../ui/Button';
@@ -13,27 +13,21 @@ export function AdminBlogList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadPosts();
-  }, []);
-
-  async function loadPosts() {
-    try {
-      setLoading(true);
-      const { posts } = await getPosts({ page: 1, perPage: 100 });
-      setPosts(posts);
-    } catch (error) {
-      toast.error('Failed to load posts');
-    } finally {
+    // Subscribe to real-time updates
+    const unsubscribe = subscribeToBlogs((updatedPosts) => {
+      setPosts(updatedPosts);
       setLoading(false);
-    }
-  }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
   async function handleDelete(post: Post) {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         await deletePost(post.id);
         toast.success('Post deleted successfully');
-        loadPosts();
       } catch (error) {
         toast.error('Failed to delete post');
       }
@@ -57,7 +51,6 @@ export function AdminBlogList() {
           onSave={() => {
             setIsEditing(false);
             setSelectedPost(undefined);
-            loadPosts();
           }}
           onCancel={() => {
             setIsEditing(false);

@@ -1,6 +1,31 @@
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where, orderBy, limit, startAfter } from 'firebase/firestore';
+import { 
+  collection, 
+  getDocs, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  doc, 
+  query, 
+  where, 
+  orderBy, 
+  limit, 
+  onSnapshot 
+} from 'firebase/firestore';
 import { db } from './firebase';
 import type { Post, Category, PostFilters } from '@/types/blog';
+
+export function subscribeToBlogs(callback: (posts: Post[]) => void) {
+  const postsRef = collection(db, 'posts');
+  const q = query(postsRef, orderBy('created_at', 'desc'));
+  
+  return onSnapshot(q, (snapshot) => {
+    const posts = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    })) as Post[];
+    callback(posts);
+  });
+}
 
 export async function getPosts({ category, search, page, perPage }: PostFilters) {
   try {
@@ -23,20 +48,6 @@ export async function getPosts({ category, search, page, perPage }: PostFilters)
     };
   } catch (error) {
     console.error('Error fetching posts:', error);
-    throw error;
-  }
-}
-
-export async function getCategories() {
-  try {
-    const categoriesRef = collection(db, 'categories');
-    const snapshot = await getDocs(categoriesRef);
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    })) as Category[];
-  } catch (error) {
-    console.error('Error fetching categories:', error);
     throw error;
   }
 }

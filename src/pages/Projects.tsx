@@ -1,35 +1,27 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-
-export const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "A full-featured online shopping platform built with React and Node.js",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80",
-    link: "#",
-    tags: ["React", "Node.js", "MongoDB"]
-  },
-  {
-    id: 2,
-    title: "Task Management System",
-    description: "Project management tool with real-time updates and team collaboration features",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80",
-    link: "#",
-    tags: ["Vue.js", "Firebase", "Tailwind"]
-  },
-  {
-    id: 3,
-    title: "Healthcare Portal",
-    description: "Patient management system with appointment scheduling and medical records",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80",
-    link: "#",
-    tags: ["React", "Express", "PostgreSQL"]
-  }
-];
+import { subscribeToProjects } from '@/lib/projects';
+import type { Project } from '@/lib/projects';
 
 export function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToProjects((updatedProjects) => {
+      setProjects(updatedProjects);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

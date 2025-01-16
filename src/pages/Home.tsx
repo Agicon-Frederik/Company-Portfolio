@@ -2,7 +2,7 @@ import { Hero } from '@/components/Hero';
 import { About } from '@/components/About';
 import { Services } from '@/components/Services';
 import { Contact } from '@/components/Contact';
-import { Footer } from '@/components/Footer';
+
 
 export function HomePage() {
   return (
@@ -11,7 +11,7 @@ export function HomePage() {
       <About />
       <Services />
       <Contact />
-      <Footer />
+      
     </main>
   );
 }

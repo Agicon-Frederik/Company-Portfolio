@@ -7,6 +7,7 @@ import { BlogPostPage } from './pages/BlogPost';
 import { ProjectsPage } from './pages/Projects';
 import { AdminPage } from './pages/Admin';
 import { AdminLoginPage } from './pages/AdminLogin';
+import { Footer } from './components/Footer';
 import { AdminRoute } from './components/Admin/AdminRoute';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        <Footer />
         <Toaster position="top-right" />
       </div>
     </Router>

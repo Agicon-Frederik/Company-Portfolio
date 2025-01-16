@@ -6,11 +6,11 @@ import { useAuth } from '@/lib/auth';
 
 const publicNavItems = [
   { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Services', href: '/services' },
+  { name: 'About', href: '/#about' },
+  { name: 'Services', href: '/#services' },
   { name: 'Projects', href: '/projects' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 export function Navigation() {
@@ -37,7 +37,7 @@ export function Navigation() {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               <Briefcase className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold">Quaze</span>
+              <span className="text-xl font-bold">ServicePro</span>
             </Link>
           </div>
 
