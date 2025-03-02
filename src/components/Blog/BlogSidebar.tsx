@@ -13,13 +13,13 @@ export function BlogSidebar({
 }: BlogSidebarProps) {
   return (
     <aside>
-      <div className="rounded-lg bg-white p-6 shadow-lg">
-        <h2 className="text-lg font-semibold text-gray-900">Categories</h2>
+      <div className="rounded-lg bg-white dark:bg-gray-800 p-6 shadow-lg">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Categories</h2>
         <ul className="mt-4 space-y-2">
           <li>
             <button
               className={`w-full text-left ${
-                !selectedCategory ? 'text-blue-600' : 'text-gray-600'
+                !selectedCategory ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'
               }`}
               onClick={() => onCategorySelect(undefined)}
             >
@@ -31,8 +31,8 @@ export function BlogSidebar({
               <button
                 className={`w-full text-left ${
                   selectedCategory === category.slug
-                    ? 'text-blue-600'
-                    : 'text-gray-600'
+                    ? 'text-blue-600 dark:text-blue-400'
+                    : 'text-gray-600 dark:text-gray-400'
                 }`}
                 onClick={() => onCategorySelect(category.slug)}
               >

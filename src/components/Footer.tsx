@@ -22,7 +22,7 @@ export function Footer() {
         <div className="grid gap-8 lg:grid-cols-4">
           <div className="col-span-2">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">ServicePro</span>
+              <span className="text-xl font-bold">Quaxis</span>
             </Link>
             <p className="mt-4 max-w-md text-gray-400">
               Delivering innovative solutions that drive growth and success for businesses of all sizes.
@@ -63,7 +63,7 @@ export function Footer() {
 
         <div className="mt-8 border-t border-gray-800 pt-8 text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} ServicePro. All rights reserved.
+            © {new Date().getFullYear()} Quaxis. All rights reserved.
           </p>
         </div>
       </div>
