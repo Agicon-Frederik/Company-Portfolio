@@ -1,32 +1,28 @@
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Instagram, Linkedin } from "lucide-react";
+import logo from "/images/logo.png";
 
 const socialLinks = [
-  { icon: Facebook, href: '#facebook', id: 'facebook' },
-  { icon: Twitter, href: '#twitter', id: 'twitter' },
-  { icon: Instagram, href: '#instagram', id: 'instagram' },
-  { icon: Linkedin, href: '#linkedin', id: 'linkedin' },
+  { icon: Instagram, href: "#instagram", id: "instagram" },
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/in/frevant/",
+    id: "linkedin",
+  },
 ];
 
 const quickLinks = [
-  { name: 'About', href: '/#about' },
-  { name: 'Services', href: '/#services' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/#contact' },
+  { name: "Credo", href: "/#about" },
+  { name: "Diensten", href: "/#services" },
+  { name: "Contact", href: "/#contact" },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-50 text-green-900">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-4">
           <div className="col-span-2">
-            <Link to="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">Quaxis</span>
-            </Link>
-            <p className="mt-4 max-w-md text-gray-400">
-              Delivering innovative solutions that drive growth and success for businesses of all sizes.
-            </p>
+            <img src={logo} alt="Logo" />
           </div>
 
           <div>
@@ -36,7 +32,7 @@ export function Footer() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 transition-colors hover:text-white"
+                    className="text-green-900 transition-colors hover:text-green-600"
                   >
                     {link.name}
                   </a>
@@ -62,9 +58,10 @@ export function Footer() {
         </div>
 
         <div className="mt-8 border-t border-gray-800 pt-8 text-center">
-          <p className="text-gray-400">
-            © {new Date().getFullYear()} Quaxis. All rights reserved.
+          <p className="text-white-400">
+            © {new Date().getFullYear()} Agicon. All rights reserved.
           </p>
+          <a href="/privacybeleid">Privacybeleid</a>
         </div>
       </div>
     </footer>

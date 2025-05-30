@@ -1,13 +1,13 @@
-import { useInView } from 'react-intersection-observer';
-import { motion } from 'framer-motion';
-import { ServiceCard } from './ServiceCard';
-import { services } from './services.data';
+import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
+import { ServiceCard } from "./ServiceCard";
+import { services } from "./services.data";
 
 export function Services() {
   const [ref, inView] = useInView({ triggerOnce: true });
 
   const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -20,20 +20,24 @@ export function Services() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">Our Services</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            mijn diensten
+          </h2>
           <p className="mt-4 text-base sm:text-lg leading-8 text-gray-600 px-4">
-            Comprehensive solutions tailored to your business needs
+            Als trotse generalist en zwitsers zakmes kan je bij mij terecht voor
+            heel veel.
           </p>
         </motion.div>
 
         <div className="mt-12 sm:mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <ServiceCard
               key={service.title}
               icon={service.icon}
               title={service.title}
               description={service.description}
               onContactClick={scrollToContact}
+              buttonText={service.buttonText}
             />
           ))}
         </div>
