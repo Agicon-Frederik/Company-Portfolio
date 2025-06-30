@@ -18,6 +18,13 @@ jobs:
           name: Create Artifacts Directory
           command: mkdir -p ~/artifacts
       - run:
+          name: Verify Build Output
+          command: |
+            if [ ! -d build ] && [ ! -d dist ] && [ ! -d public ] && [ ! -d .output ] && [ ! -d .next ] && [ ! -d .docusaurus ]; then
+              echo "No build output found. Ensure the build process generates these directories.";
+              exit 1;
+            fi
+      - run:
           name: Copy Artifacts
           command: |
             for dir in build dist public .output .next .docusaurus; do
