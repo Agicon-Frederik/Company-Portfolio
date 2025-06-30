@@ -43,6 +43,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/artifacts
+      - add_ssh_keys:
+          fingerprints:
+            - "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
       - run:
           name: List Files to Deploy
           command: ls -la ~/artifacts
