@@ -10,32 +10,50 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: npm
+          cache-path: ~/project/node_modules
+          override-ci-command: npx pnpm install
       - run:
-          command: npm run build
+          command: npx pnpm run build
       - run:
-          name: Create the ~/artifacts directory if it doesn't exist
+          name: Create Artifacts Directory
           command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
       - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
+          name: Copy Artifacts
+          command: |
+            for dir in build dist public .output .next .docusaurus; do
+              if [ -d "$dir" ]; then
+                cp -R "$dir" ~/artifacts/
+              fi
+            done
+      - persist_to_workspace:
+          root: ~/artifacts
+          paths:
+            - "*"
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
       - image: cimg/base:stable
     steps:
-      # Replace this with steps to deploy to users
+      - attach_workspace:
+          at: ~/artifacts
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: List Files to Deploy
+          command: ls -la ~/artifacts
+      - run:
+          name: Validate Deployment Files
+          command: |
+            if [ ! "$(ls -A ~/artifacts)" ]; then
+              echo "No files to deploy. Ensure the workspace contains the necessary artifacts.";
+              exit 1;
+            fi
+      - run:
+          name: Deploy to EC2
+          command: |
+            scp -o StrictHostKeyChecking=accept-new -r ~/artifacts/* ubuntu@52.47.113.226:~/docker/nginx-proxy-manager/data/agiconbe
 workflows:
   build:
     jobs:
       - build-node
-    # - deploy:
-    #     requires:
-    #       - build-node
+      - deploy:
+         requires:
+          - build-node
