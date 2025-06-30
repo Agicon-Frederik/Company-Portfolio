@@ -59,7 +59,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            scp -o StrictHostKeyChecking=accept-new -r ~/artifacts/* ubuntu@52.47.113.226:~/docker/nginx-proxy-manager/data/agiconbe
+            scp -o StrictHostKeyChecking=accept-new -r ~/artifacts/* ubuntu@52.47.113.226:~/docker/nginx-proxy-manager/data$/agiconbe
 workflows:
   build:
     jobs:
