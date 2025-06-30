@@ -45,7 +45,7 @@ jobs:
           at: ~/artifacts
       - add_ssh_keys:
           fingerprints:
-            - "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+            - "a3:24:c2:9a:98:bb:bd:ef:dc:4c:ac:db:33:9d:2e:fa"
       - run:
           name: List Files to Deploy
           command: ls -la ~/artifacts
