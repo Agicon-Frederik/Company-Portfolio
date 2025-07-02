@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "./ui/Button";
+import BackGround from "../images/background.jpg";
 
 export function Hero() {
   return (
@@ -9,7 +10,7 @@ export function Hero() {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: "url(/images/background.jpg)",
+          backgroundImage: BackGround,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

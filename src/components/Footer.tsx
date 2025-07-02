@@ -1,5 +1,5 @@
 import { Instagram, Linkedin } from "lucide-react";
-import logo from "/images/logo.png";
+import logo from "../images/logo.png";
 
 const socialLinks = [
   { icon: Instagram, href: "#instagram", id: "instagram" },
