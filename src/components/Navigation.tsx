@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { DoorOpen } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LanguageSelector } from "./LangSwitcher";
 
 const publicNavItems = [
   { name: "Home", href: "/#home" },
@@ -127,6 +128,7 @@ export function Navigation() {
               </Link>
             ))}
           </div>
+          <LanguageSelector />
         </div>
       </div>
     </nav>

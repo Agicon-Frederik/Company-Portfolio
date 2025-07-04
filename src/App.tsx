@@ -12,6 +12,7 @@ import { Footer } from "./components/Footer";
 import { useEffect } from "react";
 import { PrivacyPage } from "./pages/PrivacyPolicy";
 import CookieConsent from "react-cookie-consent";
+import "flag-icons/css/flag-icons.min.css";
 
 function ScrollToHashElement() {
   const location = useLocation();

@@ -2,8 +2,10 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "./ui/Button";
 import BackGround from "../images/background.jpg";
+import { useTranslation } from "react-i18next";
 
 export function Hero() {
+  const { t } = useTranslation();
   return (
     <div id="home" className="relative min-h-screen">
       {/* Achtergrondafbeelding */}
@@ -28,15 +30,10 @@ export function Hero() {
             className="max-w-3xl px-6 py-10 sm:px-8 lg:px-10 bg-black/80 rounded-xl shadow-lg"
           >
             <h1 className="mb-6 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
-              Ik overbrug de kloof en maak technologie een krachtig onderdeel
-              van jouw bedrijf.
+              {t("hero.welcome")}
             </h1>
             <p className="mb-8 text-lg text-gray-300 sm:text-xl">
-              Ik maak technologie écht inzetbaar voor jouw onderneming. Dat doe
-              ik niet met dure of complexe trajecten, maar via betaalbare,
-              gebruiksvriendelijke en toegankelijke oplossingen. Denk aan
-              heldere websites, slimme software, begrijpelijke contentanalyses
-              en praktische begeleiding van je digitale projecten.
+              {t("hero.description")}
             </p>
             <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 justify-center">
               <Button
@@ -48,7 +45,7 @@ export function Hero() {
                 }
                 className="w-full sm:w-auto"
               >
-                Contacteer me
+                {t("hero.button1")}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button
@@ -61,7 +58,7 @@ export function Hero() {
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
               >
-                Mijn diensten
+                {t("hero.button2")}
               </Button>
             </div>
           </motion.div>
